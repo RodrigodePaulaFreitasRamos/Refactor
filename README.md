@@ -145,10 +145,10 @@ No Eclipse, com o botão direito sobre o projeto, vá em Export → WAR file
 
 ## Autor
 
-Steffan Martins Alves - [LinkedIn](https://www.linkedin.com/in/steffanmartins/)
+Rodrigo de Paula Freitas Ramos - [LinkedIn](https://www.linkedin.com/in/steffanmartins/)
 
 ## Contribuições
-Elton Leite - Versão com Docker - [GitHub](https://github.com/borelanjo/condominio).
+[GitHub](https://github.com/RodrigodePaulaFreitasRamos/Refactor).
 
 ## Licença
 
