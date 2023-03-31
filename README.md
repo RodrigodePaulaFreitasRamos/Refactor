@@ -145,7 +145,7 @@ No Eclipse, com o botão direito sobre o projeto, vá em Export → WAR file
 
 ## Autor
 
-Rodrigo de Paula Freitas Ramos - [LinkedIn](https://www.linkedin.com/in/steffanmartins/)
+Rodrigo de Paula Freitas Ramos - [LinkedIn](https://www.linkedin.com/in/rodrigodepaulafreitasramos/))
 
 ## Contribuições
 [GitHub](https://github.com/RodrigodePaulaFreitasRamos/Refactor).
