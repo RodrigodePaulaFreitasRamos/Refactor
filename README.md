@@ -6,8 +6,6 @@ Sistema para gerenciamento de condomínios com recursos de cadastro de imóveis 
 
 Neste arquivo você encontrará instruções para instalação, imagens demonstrativas e também tecnologias utilizadas nesta aplicação.
 
->Para um conhecimento mais aprofundado leia Trabalho de Conclusão de Curso, na íntegra, no [Repositório Institucional da UFU](https://repositorio.ufu.br/handle/123456789/23437).
-
 ## Primeiros Passos
 
 Siga estas instruções para ter uma cópia do projeto funcionando em seu computador.
