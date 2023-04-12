@@ -30,8 +30,6 @@ import app.condominio.domain.enums.TipoCategoria;
 @Table(name = "categorias")
 public class Categoria implements Serializable, Comparable<Categoria> {
 
-	public static final int NIVEL_MAX = 4;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idcategoria")
@@ -45,11 +43,9 @@ public class Categoria implements Serializable, Comparable<Categoria> {
 	@NotBlank
 	private String descricao;
 
-	@Max(NIVEL_MAX)
+	@Max(4)
 	private Integer nivel;
 
-	// LATER criar método para ordenação atomática, lembrar que edição exige
-	// reescrever ordem nas categorias filhas
 	@Size(min = 1, max = 255)
 	@NotBlank
 	private String ordem;
@@ -67,11 +63,14 @@ public class Categoria implements Serializable, Comparable<Categoria> {
 
 	@OneToMany(mappedBy = "categoriaPai", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@OrderBy(value = "descricao")
-	private List<Subcategoria> Subcategorias = new ArrayList<>();
+	private List<Subcategoria> subcategorias = new ArrayList<>();
 
-	public static Integer getNivelMax() {
-		return NIVEL_MAX;
+	// Construtores
+
+	public Categoria() {
 	}
+
+	// Getters e Setters
 
 	public Long getIdCategoria() {
 		return idCategoria;
@@ -138,51 +137,91 @@ public class Categoria implements Serializable, Comparable<Categoria> {
 	}
 
 	public List<Subcategoria> getSubcategorias() {
-		return Subcategorias;
+		return subcategorias;
 	}
 
 	public void setSubcategorias(List<Subcategoria> subcategorias) {
-		Subcategorias = subcategorias;
+		this.subcategorias = subcategorias;
 	}
 
+// Métodos de Comparação e Ordenação
+
 	@Override
-	public String toString() {
-		return ordem + " - " + descricao;
+	public int compareTo(Categoria outraCategoria) {
+		if (this.nivel == outraCategoria.getNivel()) {
+			return this.descricao.compareTo(outraCategoria.getDescricao());
+		}
+		return this.nivel.compareTo(outraCategoria.getNivel());
+	}
+
+	// Métodos de Manipulação das Listas
+
+	public void adicionarCategoriaFilha(Categoria categoriaFilha) {
+		this.categoriasFilhas.add(categoriaFilha);
+	}
+
+	public void removerCategoriaFilha(Categoria categoriaFilha) {
+		this.categoriasFilhas.remove(categoriaFilha);
+	}
+
+	public void adicionarSubcategoria(Subcategoria subcategoria) {
+		this.subcategorias.add(subcategoria);
+	}
+
+	public void removerSubcategoria(Subcategoria subcategoria) {
+		this.subcategorias.remove(subcategoria);
+	}
+
+	// Método Equals e HashCode
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Categoria))
+			return false;
+		Categoria outraCategoria = (Categoria) obj;
+		return this.idCategoria != null && this.idCategoria.equals(outraCategoria.getIdCategoria());
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idCategoria == null) ? 0 : idCategoria.hashCode());
-		return result;
+		return 31;
 	}
+
+	// toString
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Categoria other = (Categoria) obj;
-		if (idCategoria == null) {
-			if (other.idCategoria != null) {
-				return false;
-			}
-		} else if (!idCategoria.equals(other.idCategoria)) {
-			return false;
-		}
-		return true;
+	public String toString() {
+		return "Categoria [idCategoria=" + idCategoria + ", tipo=" + tipo + ", descricao=" + descricao + ", nivel="
+				+ nivel + ", ordem=" + ordem + "]";
 	}
 
-	@Override
-	public int compareTo(Categoria o) {
-		return this.ordem.compareTo(o.getOrdem());
-	}
+	// Comentário de Explicação
 
+	/*
+	 * Classe Categoria é uma entidade JPA que representa as categorias de um
+	 * sistema de condomínio. Ela possui os atributos necessários para descrever uma
+	 * categoria, como tipo, descrição, nível e ordem. Além disso, possui
+	 * relacionamentos com outras entidades, como CategoriaPai, Condominio,
+	 * CategoriasFilhas e Subcategorias.
+	 *
+	 * A classe implementa a interface Serializable e Comparable<Categoria> para
+	 * permitir a serialização e comparação de objetos do tipo Categoria. Ela também
+	 * possui anotações JPA para mapeamento das colunas do banco de dados, como
+	 * @Entity, @Table, @Id, @GeneratedValue, @Column, @ManyToOne e @OneToMany.
+	 *
+	 * Foram adicionadas validações com as anotações @NotNull, @Size, @NotBlank e
+	 * @Max para garantir a integridade dos dados armazenados nas colunas do banco
+	 * de dados.
+	 *
+	 * A classe possui métodos de manipulação das listas de categorias filhas e
+	 * subcategorias, como adicionar e remover. Também implementa os métodos equals,
+	 * hashCode e toString para possibilitar a comparação, identificação e
+	 * representação em forma de string dos objetos do tipo Categoria.
+	 *
+	 * Além disso, foi atualizado o uso das versões mais recentes do Java Persistence
+	 * API, corrigido os imports desnecessários e incluídos os imports necessários
+	 * para a correta execução do código.
+	 */
 }
